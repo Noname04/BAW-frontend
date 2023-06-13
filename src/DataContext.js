@@ -1,24 +1,12 @@
-import { isLabelWithInternallyDisabledControl } from "@testing-library/user-event/dist/utils";
 import React, { useState, createContext } from "react";
 
 export const DataContext = createContext();
 
 export const DataProvider = (props) => {
-  const [search, setSearch] = useState("");
 
   const [tvSeries, setTvSeries] = useState([]);
-
-  /*	const getShowsRequest = async (searchValue) => {
-		const url = `http://localhost:3000/api/shows`;
-
-		const response = await fetch(url);
-		const responseJson = await response.json();
-
-		if (responseJson.Search) {
-			setTvSeries(responseJson.Search);
-		}
-	};
-*/
+  const [selectedTvSeries, setSelectedTvSeries] = useState();
+  const [selectedTvSeriesDetails, setSelectedTvSeriesDetails] = useState();
 
   const handleSearch = (searchValue) => {
     fetch(`http://localhost:3000/api/shows/all?search=${searchValue}`)
@@ -40,9 +28,14 @@ export const DataProvider = (props) => {
         .then((data) => setTvSeries(data));
   };
 
+ const getTvSeries = (id) => {
+    if( id )
+        {    fetch(`http://localhost:3000/api/shows/${id}`).then((res)=> res.json()).then((data)=>setSelectedTvSeriesDetails(data))}
+  };
+
   return (
     <DataContext.Provider
-      value={{ handleSearch, tvSeries, listshows, pageChange }}
+      value={{ handleSearch, tvSeries, listshows, pageChange, selectedTvSeries, setSelectedTvSeries, getTvSeries, selectedTvSeriesDetails }}
     >
       {props.children}
     </DataContext.Provider>

@@ -1,10 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Register = (props) => {
   const [username, setusername] = useState(null);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState(null);
+
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -22,15 +25,25 @@ const Register = (props) => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async() => {
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, email, password }),
     };
-    fetch("http://localhost:3000/api/users/register", requestOptions)
-      .then((response) => response.json())
-      .then((data) => console.log(data));
+    const response = await fetch(
+      "http://localhost:3000/api/users/register",
+      requestOptions
+    );
+    
+    const data = await response.json();
+    if (response.status !== 200) {
+    }
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+      navigate('/login')
+      window.location.reload(false);
+    }
   };
 
   return (

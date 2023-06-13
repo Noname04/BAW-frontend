@@ -1,9 +1,10 @@
 import Navbar from "../components/Navbar";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Mainpage from "../components/Mainpage";
+import Mainpage from "./Mainpage";
 import { DataProvider } from "../DataContext";
-import Login from "../components/Login";
-import Register from "../components/Register";
+import Login from "./Login";
+import Register from "./Register";
+import Details from "./Details";
 
 const App = () => (
   <DataProvider>
@@ -16,6 +17,8 @@ const App = () => (
           <Route exact path="/login" Component={Login}></Route>
 
           <Route exact path="/register" Component={Register}></Route>
+
+          <Route exact path="/details/:name" Component={Details}></Route>
         </Routes>
       </div>
     </Router>
