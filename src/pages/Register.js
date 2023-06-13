@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Register = (props) => {
+
   const [username, setusername] = useState(null);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
@@ -24,6 +25,10 @@ const Register = (props) => {
       setConfirmPassword(value);
     }
   };
+
+  /*
+      Send registration data
+  */
 
   const handleSubmit = async() => {
     const requestOptions = {

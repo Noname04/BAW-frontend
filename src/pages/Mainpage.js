@@ -10,6 +10,8 @@ export default function Mainpage() {
     pageChange,
     selectedTvSeries,
     setSelectedTvSeries,
+    handleUserList,
+    userList,
   } = useContext(DataContext);
 
   const navigate = useNavigate();
@@ -17,17 +19,51 @@ export default function Mainpage() {
   const [searchValue, setSearchValue] = useState("");
   const [searched, setsearched] = useState(false);
 
-  const goToPage = (tvSeries) => {
+  /*
+        go to show details
+    */
+
+  const goToShowDetails = (tvSeries) => {
     setSelectedTvSeries(tvSeries.id);
     let str = tvSeries.name;
-
     str = str.replace(/\s+/g, "-").toLowerCase();
     navigate(`/details/${str}`);
   };
 
+  /*
+    call function to get first page of shows 
+  */
+
   useEffect(() => {
     listshows();
+    handleUserList();
   }, []);
+
+
+    /*
+    Add show to watched
+  */
+
+  const addToWatched = async (id) => {
+    const requestOptions = {
+      method: "Post",
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ showId: id }),
+    };
+    const response = await fetch(
+      "http://localhost:3000/api/lists",
+      requestOptions
+    );
+    const data = await response.json();
+    if (response.status !== 201) {
+    }
+  };
+
+  console.log(userList);
+
   return (
     <>
       <div className="flex justify-center pt-10   ">
@@ -77,7 +113,7 @@ export default function Mainpage() {
         ) : null}
       </div>
       <div className="flex flex-wrap justify-center px-4 ">
-        {tvSeries.shows
+        {tvSeries.shows && userList
           ? tvSeries.shows.map((tvSeries) => {
               return (
                 <div
@@ -86,21 +122,34 @@ export default function Mainpage() {
                 >
                   <h1
                     className="text-xl mb-6 text-center hover:cursor-pointer hover:scale-125 ease-in duration-500"
-                    onClick={() => goToPage(tvSeries)}
+                    onClick={() => goToShowDetails(tvSeries)}
                   >
                     {tvSeries.name}
                   </h1>
                   <img
                     className="flex hover:cursor-pointer hover:scale-125 ease-in duration-500"
                     alt="poster"
-                    onClick={() => goToPage(tvSeries)}
+                    onClick={() => goToShowDetails(tvSeries)}
                     src={tvSeries.imagePath}
                   />
-                  {localStorage.getItem("token")  ? (
-                  <div className="py-2">
+                  {localStorage.getItem("token") ? (
+                    <div className="py-2">
+                      {userList.filter((show) => show.show.id === tvSeries.id)
+                        .length ? (
+                          <button className="bg-slate-700 bg-blue-900 px-2 py-2 rounded-md disabled first-letter">
+                          Already in Watched List
+                          </button>
+                      ) : (
+                        <button
+                        className="hover:bg-slate-700 bg-blue-900 px-2 py-2 rounded-md  first-letter"
+                        onClick={() => addToWatched(tvSeries.id)}
+                      >
+                        Add to Watched list
+                      </button>
 
-                  </div>
-                  ): null}
+                      )}
+                    </div>
+                  ) : null}
                 </div>
               );
             })

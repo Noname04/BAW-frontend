@@ -4,30 +4,46 @@ import { DataContext } from "../DataContext";
 export default function Details() {
   const { selectedTvSeries, getTvSeries, selectedTvSeriesDetails } =
     useContext(DataContext);
+  const { review, setReview} = useState(null)
 
+  /*
+    call funtciton to get detail of show 
+  */
 
   useEffect(() => {
     getTvSeries(selectedTvSeries);
   }, []);
 
-  if (selectedTvSeriesDetails) {
-    console.log(
+
+  /*
+    add Review
+  */
+
+
+
+/*   if (selectedTvSeriesDetails) {
+     console.log(
       Math.max(...selectedTvSeriesDetails.episodes.map((e) => e.season))
-    );
+     );
     console.log(selectedTvSeriesDetails);
   }
+*/
 
   return (
     <div>
       {selectedTvSeriesDetails ? (
         <div>
           <div className="flex bg-black  ">
-            <img className="px-4" src={selectedTvSeriesDetails.imagePath} alt="" />
+            <img
+              className="px-4"
+              src={selectedTvSeriesDetails.imagePath}
+              alt=""
+            />
             <div className="w-2/4 mx-10">
               <h3 className=" font-semibold text-2xl">Overview:</h3>
               <p className="pt-1">{selectedTvSeriesDetails.description}</p>
               <div className="flex">
-                <h3 className="pr-2 font-semibold text-2xl">score:</h3>
+                <h3 className="pr-2 font-semibold text-2xl">Score:</h3>
                 {selectedTvSeriesDetails.score ? (
                   <p className=" font-semibold">
                     {selectedTvSeriesDetails.score}
@@ -60,8 +76,7 @@ export default function Details() {
             <div className=" py-4">
               <div className=" flex row mb-4 mx-8">
                 <h3 className="mr-2">Rating:</h3>
-                <div className=" w-1/5 ">
-                </div>
+                <div className=" w-1/5 "></div>
               </div>
               <div className=" ">
                 <textarea className="bg-gray-500 mx-6 px-2 py-2 w-3/4 h-60" />
