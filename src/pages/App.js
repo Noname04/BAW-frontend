@@ -5,6 +5,7 @@ import { DataProvider } from "../DataContext";
 import Login from "./Login";
 import Register from "./Register";
 import Details from "./Details";
+import Profile from "./Profile";
 
 const App = () => (
   <DataProvider>
@@ -19,6 +20,8 @@ const App = () => (
           <Route exact path="/register" Component={Register}></Route>
 
           <Route exact path="/details/:name" Component={Details}></Route>
+
+          <Route exact path="/profile" Component={Profile}></Route>
         </Routes>
       </div>
     </Router>

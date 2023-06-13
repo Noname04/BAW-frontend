@@ -1,16 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
 import { DataContext } from "../DataContext";
-import { Rating } from "react-simple-star-rating";
 
 export default function Details() {
   const { selectedTvSeries, getTvSeries, selectedTvSeriesDetails } =
     useContext(DataContext);
 
-  const [rating, setRating] = useState(0);
-
-  const handleRating = (rate) => {
-    setRating(rate);
-  };
 
   useEffect(() => {
     getTvSeries(selectedTvSeries);
@@ -28,7 +22,7 @@ export default function Details() {
       {selectedTvSeriesDetails ? (
         <div>
           <div className="flex bg-black  ">
-            <img src={selectedTvSeriesDetails.imagePath} alt="" />
+            <img className="px-4" src={selectedTvSeriesDetails.imagePath} alt="" />
             <div className="w-2/4 mx-10">
               <h3 className=" font-semibold text-2xl">Overview:</h3>
               <p className="pt-1">{selectedTvSeriesDetails.description}</p>
@@ -64,21 +58,10 @@ export default function Details() {
           </div>
           <div className="pb-10 ">
             <div className=" py-4">
-              <div className=" flex display: inline-block mb-4 mx-8">
+              <div className=" flex row mb-4 mx-8">
                 <h3 className="mr-2">Rating:</h3>
-                <Rating
-                  
-                  onClick={handleRating}
-                  ratingValue={rating}
-                  size={20}
-                  label
-                  transition
-                  fillColor="orange"
-                  emptyColor="gray"
-                  stars={10}
-                  className=""// Will remove the inline style if applied
-                />
-                {rating}
+                <div className=" w-1/5 ">
+                </div>
               </div>
               <div className=" ">
                 <textarea className="bg-gray-500 mx-6 px-2 py-2 w-3/4 h-60" />

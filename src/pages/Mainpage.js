@@ -20,14 +20,14 @@ export default function Mainpage() {
   const goToPage = (tvSeries) => {
     setSelectedTvSeries(tvSeries.id);
     let str = tvSeries.name;
-    
+
     str = str.replace(/\s+/g, "-").toLowerCase();
     navigate(`/details/${str}`);
   };
 
   useEffect(() => {
     listshows();
-  });
+  }, []);
   return (
     <>
       <div className="flex justify-center pt-10   ">
@@ -90,13 +90,17 @@ export default function Mainpage() {
                   >
                     {tvSeries.name}
                   </h1>
-                  
-                    <img
-                      className="flex hover:cursor-pointer hover:scale-125 ease-in duration-500"
-                      alt="poster"
-                      onClick={() => goToPage(tvSeries)}
-                      src={tvSeries.imagePath}
-                    />
+                  <img
+                    className="flex hover:cursor-pointer hover:scale-125 ease-in duration-500"
+                    alt="poster"
+                    onClick={() => goToPage(tvSeries)}
+                    src={tvSeries.imagePath}
+                  />
+                  {localStorage.getItem("token")  ? (
+                  <div className="py-2">
+
+                  </div>
+                  ): null}
                 </div>
               );
             })

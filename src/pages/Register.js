@@ -38,19 +38,19 @@ const Register = (props) => {
     
     const data = await response.json();
     if (response.status !== 200) {
+      console.log(data)
     }
-    if (data.token) {
-      localStorage.setItem("token", data.token);
-      navigate('/login')
+      navigate('/')
       window.location.reload(false);
-    }
+    
+
   };
 
   return (
     <div className="flex flex-col justify-center items-center pt-32">
       <h1 className="text-4xl pb-5">Registration</h1>
       <div className=" flex flex-col justify-center items-center bg-zinc-600 w-1/4 rounded-md  ">
-        <div className=" ">
+        <div >
           <div className="grid my-4 justify-center items-center ">
             <label className=" " htmlFor="username">
               Username{" "}
