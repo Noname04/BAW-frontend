@@ -11,7 +11,6 @@ export default function Profile() {
 
 
   const {
-    handleSearch,
     setSelectedTvSeries,
     handleUserList, 
     userList,
@@ -124,7 +123,7 @@ export default function Profile() {
     <div>
       {userData ? (
         <div>
-          <div className="flex flex-col justify-center items-center pt-32">
+          <div className="flex flex-col  justify-center items-center pt-32">
             <div className="flex px-4">
               <h1 className=" text-2xl mr-4">Username:</h1>
               <p className="text-xl pt-1">{userData.username}</p>
@@ -173,7 +172,7 @@ export default function Profile() {
                 setChangePassword(true);
               }}
             >
-              change password
+              Change Password
             </button>
           </div>
           <div className="">

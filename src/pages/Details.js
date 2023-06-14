@@ -78,13 +78,6 @@ export default function Details() {
     }
   };
 
-  /*   if (selectedTvSeriesDetails) {
-     console.log(
-      Math.max(...selectedTvSeriesDetails.episodes.map((e) => e.season))
-     );
-    console.log(selectedTvSeriesDetails);
-  }
-*/
 
   return (
     <div>
