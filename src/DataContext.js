@@ -3,18 +3,39 @@ import React, { useState, createContext } from "react";
 export const DataContext = createContext();
 
 export const DataProvider = (props) => {
-
   const [tvSeries, setTvSeries] = useState([]);
   const [selectedTvSeries, setSelectedTvSeries] = useState();
   const [selectedTvSeriesDetails, setSelectedTvSeriesDetails] = useState();
   const [userList, setUserList] = useState(null);
+  const [userReviews, setUserReviews] = useState();
+
+
+/*
+    
+*/
+
+  const handleUserReviews = async () => {
+    const requestOptions = {
+      method: "GET",
+      headers: { authorization: `Bearer ${localStorage.getItem("token")}` },
+    };
+
+    const response = await fetch(
+      "http://localhost:3000/api/ratings/user",
+      requestOptions
+    );
+    const data = await response.json();
+    if (response.status !== 200) {
+    } else {
+      setUserReviews(data);
+    }
+  };
 
   /*
     get searched show from all
   */
 
   const handleSearch = (searchValue) => {
-    
     fetch(`http://localhost:3000/api/shows/all?search=${searchValue}`)
       .then((res) => res.json())
       .then((data) => setTvSeries(data));
@@ -31,7 +52,6 @@ export const DataProvider = (props) => {
         .then((data) => setTvSeries(data));
   };
 
-
   /*
     change page
   */
@@ -42,43 +62,55 @@ export const DataProvider = (props) => {
         .then((data) => setTvSeries(data));
   };
 
-
-    /*
+  /*
       get details of chosen show
-    */  
- const getTvSeries = (id) => {
-    if( id )
-        {    fetch(`http://localhost:3000/api/shows/${id}`).then((res)=> res.json()).then((data)=>setSelectedTvSeriesDetails(data))}
+    */
+  const getTvSeries = (id) => {
+    if (id) {
+      fetch(`http://localhost:3000/api/shows/${id}`)
+        .then((res) => res.json())
+        .then((data) => setSelectedTvSeriesDetails(data));
+    }
   };
 
-    /*
-    Add show to watched
-  */
-
-
-      /*
+  /*
     Get User List
 */
 
   const handleUserList = async () => {
-    const requestOptions = {
-      method: "GET",
-      headers: { authorization: `Bearer ${localStorage.getItem("token")}` },
-    };
+    if (localStorage.getItem("token")) {
+      const requestOptions = {
+        method: "GET",
+        headers: { authorization: `Bearer ${localStorage.getItem("token")}` },
+      };
 
-    const response = await fetch(
-      "http://localhost:3000/api/lists",
-      requestOptions
-    );
-    const data = await response.json();
-    if (response.status !== 200) {
+      const response = await fetch(
+        "http://localhost:3000/api/lists",
+        requestOptions
+      );
+      const data = await response.json();
+      if (response.status !== 200) {
+      }
+      setUserList(data);
     }
-    setUserList(data);
   };
 
   return (
     <DataContext.Provider
-      value={{ handleSearch, tvSeries, listshows, pageChange, selectedTvSeries, setSelectedTvSeries, getTvSeries, selectedTvSeriesDetails, handleUserList, userList }}
+      value={{
+        handleSearch,
+        tvSeries,
+        listshows,
+        pageChange,
+        selectedTvSeries,
+        setSelectedTvSeries,
+        getTvSeries,
+        selectedTvSeriesDetails,
+        handleUserList,
+        userList,
+        userReviews,
+        handleUserReviews,
+      }}
     >
       {props.children}
     </DataContext.Provider>

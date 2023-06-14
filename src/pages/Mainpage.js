@@ -25,6 +25,7 @@ export default function Mainpage() {
 
   const goToShowDetails = (tvSeries) => {
     setSelectedTvSeries(tvSeries.id);
+    localStorage.setItem("showId", tvSeries.id )
     let str = tvSeries.name;
     str = str.replace(/\s+/g, "-").toLowerCase();
     navigate(`/details/${str}`);
@@ -39,7 +40,7 @@ export default function Mainpage() {
     handleUserList();
   }, []);
 
-
+    console.log(tvSeries);
     /*
     Add show to watched
   */
@@ -59,10 +60,12 @@ export default function Mainpage() {
     );
     const data = await response.json();
     if (response.status !== 201) {
+    } else{
+      window.location.reload(false);
     }
+    
   };
 
-  console.log(userList);
 
   return (
     <>
@@ -113,7 +116,7 @@ export default function Mainpage() {
         ) : null}
       </div>
       <div className="flex flex-wrap justify-center px-4 ">
-        {tvSeries.shows && userList
+        {tvSeries.shows 
           ? tvSeries.shows.map((tvSeries) => {
               return (
                 <div
@@ -121,18 +124,18 @@ export default function Mainpage() {
                   key={tvSeries.id}
                 >
                   <h1
-                    className="text-xl mb-6 text-center hover:cursor-pointer hover:scale-125 ease-in duration-500"
+                    className="text-xl mb-6 text-center hover:cursor-pointer hover:scale-110 ease-in duration-500"
                     onClick={() => goToShowDetails(tvSeries)}
                   >
                     {tvSeries.name}
                   </h1>
                   <img
-                    className="flex hover:cursor-pointer hover:scale-125 ease-in duration-500"
+                    className="flex hover:cursor-pointer hover:scale-110 ease-in duration-500"
                     alt="poster"
                     onClick={() => goToShowDetails(tvSeries)}
                     src={tvSeries.imagePath}
                   />
-                  {localStorage.getItem("token") ? (
+                  {localStorage.getItem("token") && userList ? (
                     <div className="py-2">
                       {userList.filter((show) => show.show.id === tvSeries.id)
                         .length ? (

@@ -25,6 +25,7 @@ export default function Profile() {
 
   const goToShowDetails = (tvSeries) => {
     setSelectedTvSeries(tvSeries.id);
+    localStorage.setItem("showId", tvSeries.id )
     let str = tvSeries.name;
     str = str.replace(/\s+/g, "-").toLowerCase();
     navigate(`/details/${str}`);
