@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
 
 const Login = () => {
   const [email, setEmail] = useState("");

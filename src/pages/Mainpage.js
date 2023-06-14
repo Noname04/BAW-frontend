@@ -40,7 +40,6 @@ export default function Mainpage() {
     handleUserList();
   }, []);
 
-    console.log(tvSeries);
     /*
     Add show to watched
   */
